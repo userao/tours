@@ -1,4 +1,4 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model } from 'mongoose';
 import { User, UserDocument } from 'src/schemas/users.schema';
@@ -7,6 +7,10 @@ import { User, UserDocument } from 'src/schemas/users.schema';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
+  async isUserExists(login: string): Promise<boolean> {
+    return !!(await this.userModel.findOne({login}).exec());
+  }
+  
   async getAllUsers(): Promise<User[]> {
     return this.userModel.find();
   }
@@ -15,17 +19,21 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  async createUser(user: any): Promise<User> {
+  async createUser(user: User): Promise<User> {
     const userData = new this.userModel(user);
     return userData.save();
   }
 
-  async updateUser(user: any): Promise<User> {
-    return this.userModel.findOneAndUpdate({name: user.name}, user);
+  async authUser(user: User): Promise<User> {
+    return this.userModel.findOne({login: user.login, password: user.password});
+  }
+
+  async updateUser(id:string, user: any): Promise<User> {
+    return this.userModel.findByIdAndUpdate(id, user);
   }
 
   async deleteUsers(): Promise<DeleteResult> {
-    return this.userModel.deleteMany();
+    return this.userModel.deleteMany({});
   }
 
   async deleteUser(id: string): Promise<User> {
