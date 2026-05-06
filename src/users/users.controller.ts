@@ -3,19 +3,19 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
 import { User } from 'src/schemas/users.schema';
+import { AuthService } from 'src/services/auth/auth.service';
 import { UsersService } from 'src/services/users/users.service';
 import { handleHttpError } from 'src/utils';
 
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UsersService, private authService: AuthService) {}
 
   @Get()
   getAllUsers(): Promise<User[]> {
@@ -29,13 +29,7 @@ export class UsersController {
 
   @Post('auth')
   async authUser(@Body() user: User) {
-    const authUser = await this.userService.authUser(user); 
-
-    if (!authUser) {
-      const errorMsg = 'Invalid login or password';
-      handleHttpError(HttpStatus.CONFLICT, errorMsg);
-    }
-
+    const authUser = await this.authService.signIn(user);
     return authUser; 
   }
 

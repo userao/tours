@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model } from 'mongoose';
+import { IUser } from 'src/models/user';
 import { User, UserDocument } from 'src/schemas/users.schema';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async isUserExists(login: string): Promise<boolean> {
-    return !!(await this.userModel.findOne({login}).exec());
+    return !!(await this.userModel.findOne({login}));
   }
   
   async getAllUsers(): Promise<User[]> {
@@ -17,6 +18,11 @@ export class UsersService {
 
   async getUserById(id: string): Promise<User> {
     return this.userModel.findById(id);
+  }
+
+  async findUser(login: string): Promise<IUser> {
+    const user = this.userModel.findOne({login});
+    return user;
   }
 
   async createUser(user: User): Promise<User> {
