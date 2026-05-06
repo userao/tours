@@ -12,11 +12,11 @@ export class UsersService {
     return !!(await this.userModel.findOne({login}));
   }
   
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<IUser[]> {
     return this.userModel.find();
   }
 
-  async getUserById(id: string): Promise<User> {
+  async getUserById(id: string): Promise<IUser> {
     return this.userModel.findById(id);
   }
 
@@ -25,16 +25,16 @@ export class UsersService {
     return user;
   }
 
-  async createUser(user: User): Promise<User> {
+  async createUser(user: User): Promise<IUser> {
     const userData = new this.userModel(user);
     return userData.save();
   }
 
-  async authUser(user: User): Promise<User> {
+  async authUser(user: User): Promise<IUser> {
     return this.userModel.findOne({login: user.login, password: user.password});
   }
 
-  async updateUser(id:string, user: any): Promise<User> {
+  async updateUser(id:string, user: any): Promise<IUser> {
     return this.userModel.findByIdAndUpdate(id, user);
   }
 
@@ -42,7 +42,7 @@ export class UsersService {
     return this.userModel.deleteMany({});
   }
 
-  async deleteUser(id: string): Promise<User> {
+  async deleteUser(id: string): Promise<IUser> {
     return this.userModel.findByIdAndDelete(id);
   }
 }
