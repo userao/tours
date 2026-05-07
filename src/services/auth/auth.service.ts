@@ -10,15 +10,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(user: IUser): Promise<{ access_token: string }> {
+  async signIn(user: IUser): Promise<{ id: string; access_token: string }> {
     const authUser = await this.userService.authUser(user);
 
     if (!authUser) {
       throw new UnauthorizedException();
     }
 
-    const payload = { sub: authUser.id, login: authUser.login };
+    const payload = { sub: authUser._id, login: authUser.login };
 
-    return { access_token: await this.jwtService.signAsync(payload)};
+    return {
+      id: authUser._id,
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }

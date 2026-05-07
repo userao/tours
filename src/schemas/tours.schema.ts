@@ -5,7 +5,7 @@ import { ITour } from 'src/models/tour';
 export type TourDocument = HydratedDocument<Tour>;
  
 @Schema()
-export class Tour implements ITour {
+export class Tour {
     @Prop() name: string;
  
     @Prop() description: string;
@@ -15,8 +15,6 @@ export class Tour implements ITour {
     @Prop() price: string
  
     @Prop() img: string;
- 
-    @Prop() id: string;
  
     @Prop() type: string
  

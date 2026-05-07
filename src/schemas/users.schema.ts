@@ -5,7 +5,7 @@ import { IUser } from 'src/models/user';
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
-export class User implements IUser {
+export class User {
   @Prop()
   login: string;
 
@@ -14,9 +14,6 @@ export class User implements IUser {
 
   @Prop()
   email: string;
-
-  @Prop()
-  id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
