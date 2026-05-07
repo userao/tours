@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { DeleteResult } from 'mongoose';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { ITour } from 'src/models/tour';
@@ -27,5 +27,10 @@ export class ToursController {
     @Get("generate")
     generateTours(): void {
        this.toursService.generateTours(); 
+    }
+    
+    @Get(":id")
+    getTourById(@Param('id') id: string) {
+        return this.toursService.getTourById(id);
     }
 }
