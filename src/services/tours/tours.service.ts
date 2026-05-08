@@ -17,6 +17,7 @@ export class ToursService {
       const tourData = new this.tourModel(tour);
       tourData.save();
     }
+    return this.getAllTours();
   }
 
   async getAllTours(): Promise<ITour[]> {
