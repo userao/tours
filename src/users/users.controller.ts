@@ -12,6 +12,7 @@ import {
 import { DeleteResult } from 'mongoose';
 import { UserDto } from 'src/dto/user-dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { ParamIdPipe } from 'src/pipes/param-id.pipe';
 import { User } from 'src/schemas/users.schema';
 import { AuthService } from 'src/services/auth/auth.service';
 import { UsersService } from 'src/services/users/users.service';
@@ -31,7 +32,7 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  getUserById(@Param('id') id: string) {
+  getUserById(@Param('id', ParamIdPipe) id: string) {
     return this.userService.getUserById(id);
   }
 
@@ -55,12 +56,12 @@ export class UsersController {
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: any) {
+  updateUser(@Param('id', ParamIdPipe) id: string, @Body() user: any) {
     return this.userService.updateUser(id, user);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id', ParamIdPipe) id: string) {
     return this.userService.deleteUser(id);
   }
 

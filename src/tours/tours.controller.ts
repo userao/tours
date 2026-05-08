@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/c
 import { DeleteResult } from 'mongoose';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { ITour } from 'src/models/tour';
+import { ParamIdPipe } from 'src/pipes/param-id.pipe';
 import { Tour } from 'src/schemas/tours.schema';
 import { ToursService } from 'src/services/tours/tours.service';
 
@@ -31,7 +32,7 @@ export class ToursController {
     }
     
     @Get(":id")
-    getTourById(@Param('id') id: string) {
+    getTourById(@Param('id', ParamIdPipe) id: string) {
         return this.toursService.getTourById(id);
     }
 }
