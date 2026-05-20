@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { OrderDto } from 'src/dto/order-dto';
 import { Order } from 'src/schemas/order.schema';
 import { OrdersService } from 'src/services/orders/orders.service';
@@ -9,8 +9,10 @@ export class OrdersController {
 
     @Post()
     addOrder(@Body() data: OrderDto): Promise<Order> {
-        console.log(data);
-        
         return this.orderService.sendOrder(data);
+    }
+    @Get()
+    getAllOrders(): Promise<Order[]> {
+        return this.orderService.getAllOrders();
     }
 }
