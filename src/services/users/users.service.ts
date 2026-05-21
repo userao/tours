@@ -21,10 +21,10 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  async findUser(login: string): Promise<User> {
-    const user = this.userModel.findOne({ login });
-    return user;
-  }
+  // async findUser(login: string): Promise<User> {
+  //   const user = this.userModel.findOne({ login });
+  //   return user;
+  // }
 
   async createUser(user: UserDto): Promise<User> {
     const salt = await bcrypt.genSalt(10);
@@ -33,10 +33,9 @@ export class UsersService {
     return userData.save();
   }
 
-  async authUser(user: UserDto): Promise<User & { _id: string }> {
+  async findUser(login: string): Promise<User & { _id: string }> {
     return this.userModel.findOne({
-      login: user.login,
-      password: user.password,
+      login,
     });
   }
 
