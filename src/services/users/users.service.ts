@@ -21,16 +21,14 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  // async findUser(login: string): Promise<User> {
-  //   const user = this.userModel.findOne({ login });
-  //   return user;
-  // }
-
-  async createUser(user: UserDto): Promise<User> {
+  async createUser(user: UserDto): Promise<boolean> {
+    const defaultRole = 'user'
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(user.password.toString(), salt);
-    const userData = new this.userModel({ ...user, password: hash  });
-    return userData.save();
+    const userData = new this.userModel({ ...user, password: hash, role: defaultRole  });
+    userData.save();
+
+    return true;
   }
 
   async findUser(login: string): Promise<User & { _id: string }> {

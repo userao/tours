@@ -12,6 +12,7 @@ import {
 import { DeleteResult } from 'mongoose';
 import { UserDto } from 'src/dto/user-dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { RoleGuard } from 'src/guards/role/role.guard';
 import { ParamIdPipe } from 'src/pipes/param-id.pipe';
 import { AuthService } from 'src/services/auth/auth.service';
 import { UsersService } from 'src/services/users/users.service';
@@ -38,7 +39,7 @@ export class UsersController {
   @Post('auth')
   async authUser(
     @Body() user: UserDto,
-  ): Promise<{ id: string; access_token: string }> {
+  ): Promise<{ id: string; access_token: string; role: string }> {
     return this.authService.signIn(user);
   }
 
@@ -64,6 +65,7 @@ export class UsersController {
     return this.userService.deleteUser(id);
   }
 
+  @UseGuards(RoleGuard)
   @Delete()
   deleteAllUsers(): Promise<DeleteResult> {
     return this.userService.deleteUsers();
