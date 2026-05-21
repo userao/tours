@@ -8,5 +8,7 @@ export class UserDto implements IUser {
   login: string;
   @IsOptional()
   email: string;
+  @IsOptional()
+  role: string;
   id: string;
 }

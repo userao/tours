@@ -14,6 +14,7 @@ import { DeleteResult } from 'mongoose';
 import { diskStorage } from 'multer';
 import { TourDto } from 'src/dto/tours-dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { RoleGuard } from 'src/guards/role/role.guard';
 import { ITour } from 'src/models/tour';
 import { ParamIdPipe } from 'src/pipes/param-id.pipe';
 import { Tour } from 'src/schemas/tours.schema';
@@ -29,6 +30,7 @@ export class ToursController {
     return this.toursService.getAllTours();
   }
 
+  @UseGuards(RoleGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('img', {
@@ -50,11 +52,13 @@ export class ToursController {
     return this.toursService.createTour(data);
   }
 
+  @UseGuards(RoleGuard)
   @Delete()
   removeAllTours(): Promise<DeleteResult> {
     return this.toursService.removeAllTours();
   }
 
+  @UseGuards(RoleGuard)
   @Get('generate')
   generateTours(): Promise<ITour[]> {
     return this.toursService.generateTours();

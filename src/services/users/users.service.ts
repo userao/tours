@@ -22,10 +22,10 @@ export class UsersService {
   }
 
   async createUser(user: UserDto): Promise<boolean> {
-    const defaultRole = 'user'
+    const role = user.role ?? 'user';
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(user.password.toString(), salt);
-    const userData = new this.userModel({ ...user, password: hash, role: defaultRole  });
+    const userData = new this.userModel({ ...user, password: hash, role });
     userData.save();
 
     return true;

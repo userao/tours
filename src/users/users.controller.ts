@@ -60,6 +60,7 @@ export class UsersController {
     return this.userService.updateUser(id, user);
   }
 
+  @UseGuards(RoleGuard)
   @Delete(':id')
   deleteUser(@Param('id', ParamIdPipe) id: string) {
     return this.userService.deleteUser(id);
