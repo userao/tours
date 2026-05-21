@@ -13,7 +13,6 @@ import { DeleteResult } from 'mongoose';
 import { UserDto } from 'src/dto/user-dto';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
 import { ParamIdPipe } from 'src/pipes/param-id.pipe';
-import { User } from 'src/schemas/users.schema';
 import { AuthService } from 'src/services/auth/auth.service';
 import { UsersService } from 'src/services/users/users.service';
 import { handleHttpError } from 'src/utils';
